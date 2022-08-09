@@ -47,7 +47,7 @@ function generateAntWinLikelihoodCalculator() {
 }
 
 
-interface Ant {
+export interface Ant {
   name: string
   length: number
   color: string
@@ -57,7 +57,7 @@ interface Ant {
   winLikelihood: number
 }
 
-interface AntsState {
+export interface AntsState {
   ants: Ant[]
   hasInitialDataLoaded: boolean
   raceLoading: boolean
@@ -78,11 +78,11 @@ const initialState: AntsState = {
   firstRaceEnded: false
 }
 
-const LOAD_INITIAL_DATA = 'load_initial_data'
-const START_RACE = 'race_start'
-const END_RACE = 'race_end'
-const UPDATE_ANT = 'ant_update'
-const RESET_ANTS = 'reset_ants'
+export const LOAD_INITIAL_DATA = 'load_initial_data'
+export const START_RACE = 'race_start'
+export const END_RACE = 'race_end'
+export const UPDATE_ANT = 'ant_update'
+export const RESET_ANTS = 'reset_ants'
 
 export const reducer = (state: AntsState = initialState, action: AntsAction): AntsState => {
   switch (action.type) {
@@ -153,9 +153,6 @@ export const startRaceCreator = () => {
     dispatch({ type: START_RACE })
 
     const antPromises = []
-
-    console.log('in the thunk')
-
     for (let ant of state.ants) {
       antPromises.push(new Promise((resolve) => {
         const cb = (winLikelihood) => {
@@ -168,8 +165,6 @@ export const startRaceCreator = () => {
         generator(cb)
       }))
     }
-
-
 
     await Promise.all(antPromises)
     dispatch({ type: END_RACE })

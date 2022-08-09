@@ -1,15 +1,15 @@
 import { useSelector } from "react-redux"
-import { Card, Text, Row } from "@nextui-org/react"
+import { Text } from "@nextui-org/react"
 import { useEffect, useState } from 'react'
 
-const Ant = () => {
+import { Ant, AntsState } from '../store/ants'
 
-}
+import AntContainer from './AntContainer'
 
 export default function AntList() {
-  const ants = useSelector((state) => state.ants)
+  const ants: Ant[] = useSelector((state: AntsState) => state.ants)
 
-  const [antsSorted, setAntsSorted] = useState([])
+  const [antsSorted, setAntsSorted] = useState<Ant[]>([])
 
   useEffect(() => {
     const newAnts = [...ants]
@@ -32,23 +32,8 @@ export default function AntList() {
           🐜󠀠🐜🐜󠀠󠀠󠀠󠀠
         </Text>
       )}
-      { antsSorted.map((ant, index) => (
-        <Card key={ant.id} css={{ marginBottom: '20px', width: 'contain', mw: '250px' }}>
-          <Card.Header css={{ border: `2px dashed ${ant.color }`, borderRadius: '14px' }}>
-            <Text b css={{ textAlign: 'center', width: '100%'}}>🐜{ant.name}🐜</Text>
-          </Card.Header>
-          <Card.Body>
-            <Row align="center">
-              <Text b css={{ marginRight: '5px' }}>Length: </Text><Text>{ ant.length }</Text>
-            </Row>
-            <Row align="center">
-              <Text b css={{ marginRight: '5px' }}>Weight: </Text><Text>{ ant.weight }</Text>
-            </Row>
-            <Row align="center">
-              <Text b css={{ marginRight: '5px' }}>Win Likelihood: </Text><Text>{ Math.round(ant.winLikelihood * 100) }%</Text>
-            </Row>
-          </Card.Body>
-        </Card>
+      { antsSorted.map((ant) => (
+        <AntContainer ant={ant} key={ant.id} />
       ))}
     </div>
   )

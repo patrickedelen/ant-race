@@ -1,19 +1,20 @@
 import { Row, Button, Text, Loading } from '@nextui-org/react'
 import { useDispatch, useSelector } from "react-redux"
+import { Dispatch } from 'redux'
 
-import { startRaceCreator } from '../store/ants'
+import { startRaceCreator, AntsState, LOAD_INITIAL_DATA } from '../store/ants'
 
 export default function Header() {
-  const dispatch = useDispatch()
+  const dispatch: Dispatch<any> = useDispatch()
 
   const loadInitial = () => {
-    dispatch({ type: 'load_initial_data' })
+    dispatch({ type: LOAD_INITIAL_DATA })
   }
   const startRace = () => {
     dispatch(startRaceCreator())
   }
 
-  const { hasInitialDataLoaded, raceLoading, firstRaceEnded } = useSelector((state) => state)
+  const { hasInitialDataLoaded, raceLoading, firstRaceEnded }: AntsState = useSelector((state: AntsState) => state)
 
   return (
     <>
