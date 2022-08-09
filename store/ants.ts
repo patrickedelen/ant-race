@@ -61,6 +61,7 @@ interface AntsState {
   ants: Ant[]
   hasInitialDataLoaded: boolean
   raceLoading: boolean
+  firstRaceEnded: boolean
 }
 
 type AntsAction = {
@@ -73,7 +74,8 @@ type AntsAction = {
 const initialState: AntsState = {
   ants: [],
   hasInitialDataLoaded: false,
-  raceLoading: false
+  raceLoading: false,
+  firstRaceEnded: false
 }
 
 const LOAD_INITIAL_DATA = 'load_initial_data'
@@ -102,6 +104,7 @@ export const reducer = (state: AntsState = initialState, action: AntsAction): An
         ...state,
         ants: state.ants.map((ant) => ({
           ...ant,
+          winLikelihood: 0,
           loading: true
         })),
         raceLoading: true
@@ -109,7 +112,8 @@ export const reducer = (state: AntsState = initialState, action: AntsAction): An
     case END_RACE:
       return {
         ...state,
-        raceLoading: false
+        raceLoading: false,
+        firstRaceEnded: true
       }
     case UPDATE_ANT:
       const newAnts = state.ants.map((ant) => {
