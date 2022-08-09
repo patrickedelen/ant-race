@@ -1,3 +1,5 @@
+import { AnyAction } from 'redux';
+import { ThunkAction } from 'redux-thunk'
 
 const antsData = {
   "ants": [
@@ -36,7 +38,7 @@ const antsData = {
 
 // TODO: change delay back to 7000 + Math.random() * 7000;
 function generateAntWinLikelihoodCalculator() {
-  const delay = 1000 + Math.random() * 3000;
+  const delay = 7000 + Math.random() * 7000;
   const likelihoodOfAntWinning = Math.random();
 
   return (callback) => {
@@ -97,6 +99,7 @@ export const reducer = (state: AntsState = initialState, action: AntsAction): An
         ...state,
         hasInitialDataLoaded: true,
         raceLoading: false,
+        firstRaceEnded: false,
         ants: newAntsData,
       }
     case START_RACE:
@@ -140,13 +143,8 @@ export const reducer = (state: AntsState = initialState, action: AntsAction): An
   return state
 }
 
-// ------ actions ------
-
-// load initial ants
-// start race
-// reset ants
-
-export const startRaceCreator = () => {
+// simulate the ant api call and set the state to finished when all return
+export const startRaceCreator = (): ThunkAction<any, AntsState, unknown, AnyAction>  => {
   return async (dispatch, getState) => {
     const state = getState()
 
@@ -155,7 +153,7 @@ export const startRaceCreator = () => {
     const antPromises = []
     for (let ant of state.ants) {
       antPromises.push(new Promise((resolve) => {
-        const cb = (winLikelihood) => {
+        const cb = (winLikelihood: number) => {
           dispatch({ type: UPDATE_ANT, antId: ant.id, antLoading: false, antWinLikelihood: winLikelihood })
 
           // we don't have to do anything with this data but nice to have
