@@ -153,14 +153,11 @@ export const startRaceCreator = () => {
     console.log('in the thunk')
 
     for (let ant of state.ants) {
-      console.log('setting loading for', ant.id)
-      // dispatch({ type: UPDATE_ANT, id: ant.id, antLoading: true })
       antPromises.push(new Promise((resolve) => {
         const cb = (winLikelihood) => {
-          console.log('resolving', ant.id)
           dispatch({ type: UPDATE_ANT, antId: ant.id, antLoading: false, antWinLikelihood: winLikelihood })
 
-          // we don't have to do anything with this data
+          // we don't have to do anything with this data but nice to have
           resolve({ antId: ant.id, winLikelihood})
         }
         const generator = generateAntWinLikelihoodCalculator()

@@ -1,11 +1,14 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
-import { Button } from '@nextui-org/react'
+import { Button, Container } from '@nextui-org/react'
 
 import { useDispatch, useSelector } from "react-redux"
 
 import { startRaceCreator } from '../store/ants'
+
+import Header from '../components/Header'
+import AntList from '../components/AntList'
 
 const Main: NextPage = () => {
 
@@ -28,11 +31,10 @@ const Main: NextPage = () => {
         <title>Ant Race</title>
       </Head>
 
-      <main>
-        test test
-        <Button onClick={loadInitial}>hi there</Button>
-        <Button onClick={startRace}>start race</Button>
-      </main>
+      <Container>
+        <Header />
+        <AntList />
+      </Container>
     </div>
   )
 }
